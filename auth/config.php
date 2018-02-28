@@ -2,13 +2,26 @@
 
 session_start();
 
+// Auth
 require_once("auth/restrict.php");
 require_once("connection/db.php");
-require_once("logger/logger.php");
-require_once("logger/logger-handler.php");
-require_once("interfaces/chain-interfaces.php");
-require_once("models/chain-models.php");
-require_once("handlers/chain-handlers.php");
+
+// Interfaces
+require_once("interfaces/i-account.php");
+require_once("interfaces/i-customer.php");
+
+// Models
+require_once("models/bank.php");
+require_once("models/customer.php");
+require_once("models/account.php");
+
+// Handlers
+require_once("handlers/message-handler.php");
+require_once("handlers/validation-handler.php");
+require_once("handlers/generate-handler.php");
+require_once("handlers/customer-handler.php");
+require_once("handlers/account-handler.php");
+require_once("handlers/bank-handler.php");
 
 date_default_timezone_set("Israel");
 

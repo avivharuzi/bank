@@ -103,6 +103,113 @@ class CustomerHandler {
             return $errorMsg;
         }
     }
+
+    public static function checkCustomers($conn) {
+        $sql = "SELECT * FROM customer";
+        $result = $conn->getFullData($sql);
+
+        $options = "";
+
+        if ($result) {
+            foreach ($result as $value) {
+                $options .= "<option value='$value->Id'>" . ucwords($value->FullName) . "</option>";
+            }
+
+            return $options;
+        } else {
+            return false;
+        }
+    }
+
+    public static function addCustomer($conn) {
+        if (isset($_POST["addCustomer"])) {
+            $regFullName     = "/^[a-zA-Z ]*$/";
+            $regUserName     = "/^[A-Za-z0-9_]{3,20}$/";
+            $regIdentityCard = "/^[0-9]{9}$/";
+        
+            $counter = 0;
+        
+            if (!ValidationHandler::validateInputs($_POST["fullName"], $regFullName)) {
+                $counter += 1;
+                $fullName = $_POST["fullName"];
+            } else {
+                $fullName = ValidationHandler::testInput(strtolower($_POST["fullName"]));
+            }
+        
+            if (!ValidationHandler::validateInputs($_POST["userName"], $regUserName)) {
+                $counter += 1;
+                $userName = $_POST["userName"];
+            } else {
+                $userName = ValidationHandler::testInput(strtolower($_POST["userName"]));
+                if (self::checkUserName($conn, $userName)) {
+                    $counter += 1;
+                    $errorMsg[] = "This user name is already in used";
+                }
+            }
+        
+            if (!ValidationHandler::validateInputs($_POST["identityCard"], $regIdentityCard)) {
+                $counter += 1;
+                $identityCard = $_POST["identityCard"];
+            } else {
+                $identityCard = ValidationHandler::testInput(strtolower($_POST["identityCard"]));
+                if (self::checkIdentityCard($conn, $identityCard)) {
+                    $counter += 1;
+                    $errorMsg[] = "This identity card is already in used";
+                }
+            }
+        
+            if ($counter === 0) {
+                $password = GenerateHandler::generatePassword();
+                $customer = new Customer(null, $fullName, $userName, $password, $identityCard);
+                $customer->addCustomer($conn);
+                $_POST["fullName"] = $_POST["userName"] = $_POST["identityCard"] = "";
+                return MessageHandler::successMsg("This customer has been added successfully in our bank<br>Customer password: $password");
+            } else {
+                return MessageHandler::errorMsgArray($errorMsg);
+            }
+        }
+    }
+
+    public static function deleteCustomerAction($conn) {
+        if (isset($_POST["deleteCustomer"])) {
+            if (self::deleteCustomer($conn, $_POST["deleteCustomer"])) {
+                return MessageHandler::successMsg("This customer deleted successfully");
+            } else {
+                return MessageHandler::errorMsg("This customer have a bank account and cannot be deleted");
+            }
+        }
+    }
+
+    public static function saveCustomerAction($conn) {
+        if (isset($_POST["saveCustomer"])) {
+            if (($errorMsgSave = self::changeCustomer($conn, $_POST["saveCustomer"])) === true) {
+                return MessageHandler::successMsg("This customer changed successfully");
+            } else {
+                return MessageHandler::errorMsgArray($errorMsgSave);
+            }
+        }
+    }
+
+    public static function tableData($conn) {
+        $sql = "SELECT * FROM customer";
+
+        $result = $conn->getFullData($sql, "Customer");
+
+        $table = "";
+
+        if ($result) {
+            $table .= self::headerTable();
+            foreach ($result as $value) {
+                $table .= $value->tableData();
+            }
+            $table .= self::bottomTable();
+
+            return $table;
+        } else {
+            return MessageHandler::warningMsg("There are no customers in the bank yet");
+        }
+
+    }
 }
 
 ?>

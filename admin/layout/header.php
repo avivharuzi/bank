@@ -9,11 +9,10 @@
         <meta name="author" content="Aviv Haruzi">
         <title><?php if (isset($title)) { echo $title; } ?></title>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">       
-        <link rel="stylesheet" type="text/css" href="../css/main/style.css">      
-        <link rel="shortcut icon" type="image/x-icon" href="../images/icons/ancient.ico">
-        <link rel="icon" type="image/png" href="../images/icons/ancient.png">
+        <link rel="stylesheet" type="text/css" href="../assets/css/libs/bootstrap/bootstrap.min.css">     
+        <link rel="stylesheet" type="text/css" href="../assets/css/styles.css">      
+        <link rel="shortcut icon" type="image/x-icon" href="../assets/images/icons/ancient.ico">
+        <link rel="icon" type="image/png" href="../assets/images/icons/ancient.png">
     </head>
     <body>
         <?php if (isset($_SESSION["adminIsLoggedIn"]) == true) { ?>

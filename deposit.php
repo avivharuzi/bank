@@ -2,14 +2,6 @@
 
 require_once("auth/config.php");
 
-if (isset($_POST["deposit"])) {
-    if (($resultMsg = AccountHandler::depositAction($conn, $_POST["amount"], $stringDate, $accountId)) === true) {
-        $successMsg = "You added $" . $_POST["amount"] . " to your bank account";
-    } else {
-        $errorMsg = $resultMsg;
-    }
-}
-
 $title = "Deposit";
 
 ?>
@@ -21,12 +13,7 @@ $title = "Deposit";
 <div class="row justify-content-center mt-5">
     <div class="col-lg-6 text-center">
         <?php
-        if (!empty($successMsg)) {
-            echo MessageHandler::successMsg($successMsg);
-        }
-        if (!empty($errorMsg)) {
-            echo MessageHandler::errorMsg($errorMsg);
-        }
+        echo AccountHandler::deposit($conn, $stringDate, $accountId);
         ?>
         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST" autocomplete="off">
             <div class="form-group">

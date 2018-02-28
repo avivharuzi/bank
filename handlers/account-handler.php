@@ -137,7 +137,7 @@ class AccountHandler {
 
             return $table;
         } else {
-            return false;
+            return MessageHandler::warningMsg("There are no accounts in the bank");
         }
     }
 
@@ -181,7 +181,10 @@ class AccountHandler {
 
             return $transactions;
         } else {
-            return false;
+            return
+            "<div class='mt-5'>" .
+                MessageHandler::warningMsg("You have not done any transactions yet") . 
+            "</div>";
         }
     }
 
@@ -194,6 +197,146 @@ class AccountHandler {
                 return true;
             } else {
                 return false;
+            }
+        }
+    }
+
+    public static function loginCustomer($conn) {
+        if (isset($_POST["login"])) {
+            $identityCard = $conn->escape($_POST["identityCard"]);
+            $password     = $conn->escape($_POST["password"]);
+            $sql = "SELECT * FROM customer WHERE IdentityCard = '$identityCard' LIMIT 1";
+            $result = $conn->getSingleData($sql, "Customer");
+        
+            if ($result && $result->Password === $password) {
+                if (($accountId = self::checkAccount($conn, $result->Id)) !== false) {
+                        $result->setSession($accountId);
+                } else {
+                    return MessageHandler::errorMsg("You are a bank customer but you still dont have an account");
+                }
+            } else {
+                return MessageHandler::errorMsg("You have entered an invalid identity card or password");
+            }
+        }
+    }
+
+    public static function loginAdmin($conn) {
+        if (isset($_POST["login"])) {
+            $userName = $conn->escape(strtolower($_POST["userName"]));
+            $password = $conn->escape($_POST["password"]);
+            $sql = "SELECT * FROM admin WHERE UserName = '$userName' LIMIT 1";
+            $result = $conn->getSingleData($sql);
+            if ($result && $password === $result->Password) {
+                $_SESSION["adminIsLoggedIn"] = true;
+                header("Location: index.php");
+            } else {
+                return MessageHandler::errorMsg("You have entered an invalid username or password");
+            }
+        }
+    }
+
+    public static function deposit($conn, $stringDate, $accountId) {
+        if (isset($_POST["deposit"])) {
+            if (($resultMsg = self::depositAction($conn, $_POST["amount"], $stringDate, $accountId)) === true) {
+                return MessageHandler::successMsg("You added $" . $_POST["amount"] . " to your bank account");
+            } else {
+                return MessageHandler::errorMsg($resultMsg);
+            }
+        }
+    }
+
+    public static function withdrawal($conn, $stringDate, $accountId) {
+        if (isset($_POST["withdrawal"])) {
+            if (($resultMsg = self::withdrawalAction($conn, $_POST["amount"], $stringDate, $accountId)) === true) {
+                return MessageHandler::successMsg("You withdrawal $" . $_POST["amount"] . " from your bank account");
+            } else {
+                return MessageHandler::errorMsg($resultMsg);
+            }
+        }
+    }
+
+    public static function depositFromAdmin($conn, $stringDate, $accountId) {
+        if (isset($_POST["deposit"])) {
+            $accountId = $_POST["deposit"];
+            if (($resultMsg = self::depositAction($conn, $_POST["amountDeposit$accountId"], $stringDate, $accountId)) === true) {
+                return MessageHandler::successMsg("You added $" . $_POST["amountDeposit$accountId"] . " to your bank account");
+            } else {
+                return MessageHandler::errorMsg($resultMsg);
+            }
+        }
+    }
+
+    public static function withdrawalFromAdmin($conn, $stringDate, $accountId) {
+        if (isset($_POST["withdrawal"])) {
+            $accountId = $_POST["withdrawal"];
+            if (($resultMsg = self::withdrawalAction($conn, $_POST["amountWithdrawal$accountId"], $stringDate, $accountId)) === true) {
+                return MessageHandler::successMsg("You withdrawal $" . $_POST["amountWithdrawal$accountId"] . " from your bank account");
+            } else {
+                return MessageHandler::errorMsg($resultMsg);
+            }
+        }
+    }
+
+    public static function searchAccount($conn) {
+        if (isset($_GET["search"])) {
+            $identityCard = $_GET["identityCard"];
+            $sql = "SELECT * FROM customer WHERE IdentityCard = '$identityCard' LIMIT 1";
+            $result = $conn->getSingleData($sql);
+        
+            if ($result) {
+                if (self::checkAccount($conn, $result->Id)) {
+                    return MessageHandler::bigSuccessMsg("Match Found") . self::tableData($conn, true, $result->Id);
+                } else {
+                    return MessageHandler::bigErrorMsg("No Results");
+                }
+            } else {
+                return MessageHandler::bigErrorMsg("No Results");
+            }
+        }
+    }
+
+    public static function deleteAccount($conn) {
+        if (isset($_POST["deleteAccount"])) {
+            $accountId = $_POST["deleteAccount"];
+        
+            if ((self::deleteAccountAction($conn, $accountId)) === true) {
+                return MessageHandler::successMsg("This account deleted successfully");
+            } else {
+                return MessageHandler::errorMsg("This account cannot be deleted because it is in debt");
+            }
+        }
+    }
+
+    public static function addAccount($conn, $stringDate) {
+        if (isset($_POST["addAccount"])) {
+            $counter = 0;
+        
+            if (!empty($_POST["customerId"])) {
+                if ((self::checkAccount($conn, $_POST["customerId"])) === false) {
+                    $customerId = $_POST["customerId"];
+                } else {
+                    $counter += 1;
+                    $errorMsg = "This customer has already account in the bank";
+                }
+            } else {
+                $counter += 1;
+            }
+        
+            if (!empty($_POST["typeAccount"])) {
+                if ($_POST["typeAccount"] === "private" || $_POST["typeAccount"] === "business") {
+                    $typeAccount = $_POST["typeAccount"];
+                } else {
+                    $counter += 1;
+                }
+            } else {
+                $counter += 1;
+            }
+        
+            if ($counter === 0) {
+                $accountNumber = GenerateHandler::generateNumbers($conn);
+                $account = new Account(null, $accountNumber, $typeAccount, 0, $stringDate, $customerId);
+                $account->addAccount($conn);
+                return MessageHandler::successMsg("Account has been created successfully in our bank<br>Customer bank account number: $accountNumber"); 
             }
         }
     }

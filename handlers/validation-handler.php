@@ -22,6 +22,14 @@ class ValidationHandler {
         $data = htmlspecialchars($data);
         return $data;
     }
+
+    public static function preserveValue($value , $exist = "") {
+        if (!empty($_POST[$value])) {
+            return self::testInput($_POST[$value]);
+        } else {
+            return $exist;
+        }
+    }
 }
 
 ?>

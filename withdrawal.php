@@ -2,14 +2,6 @@
 
 require_once("auth/config.php");
 
-if (isset($_POST["withdrawal"])) {
-    if (($resultMsg = AccountHandler::withdrawalAction($conn, $_POST["amount"], $stringDate, $accountId)) === true) {
-        $successMsg = "You withdrawal $" . $_POST["amount"] . " from your bank account";
-    } else {
-        $errorMsg = $resultMsg;
-    }
-}
-
 $title = "Withdrawal";
 
 ?>
@@ -21,12 +13,7 @@ $title = "Withdrawal";
 <div class="row justify-content-center mt-5">
     <div class="col-lg-6 text-center">
         <?php
-        if (!empty($successMsg)) {
-            echo MessageHandler::successMsg($successMsg);
-        }
-        if (!empty($errorMsg)) {
-            echo MessageHandler::errorMsg($errorMsg);
-        }
+        echo AccountHandler::withdrawal($conn, $stringDate, $accountId);
         ?>
         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST" autocomplete="off">
             <div class="form-group">

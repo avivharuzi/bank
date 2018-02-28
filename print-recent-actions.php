@@ -12,14 +12,7 @@ $title = "Print Recent Actions";
 </div>
 <div class="row justify-content-center">
     <?php
-    if ($transactions = AccountHandler::getTransactions($conn, $accountId)) {
-        echo $transactions;
-    } else {
-        echo
-        "<div class='mt-5'>" .
-            MessageHandler::warningMsg("You have not done any transactions yet") . 
-        "</div>";
-    }
+    echo AccountHandler::getTransactions($conn, $accountId);
     ?>
 </div>
 <?php require_once("layout/footer.php"); ?>
