@@ -34,6 +34,6 @@ if (!empty($options)) { ?>
         </div>
     </form>
 <?php } else {
-    MessageHandler::warningMsg("There are no customers in the bank yet");
+    echo MessageHandler::warningMsg("There are no customers in the bank yet");
 } ?>
 <?php require_once("layout/footer.php"); ?>

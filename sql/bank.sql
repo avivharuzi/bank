@@ -68,7 +68,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'Aviv Haruzi','admin','admin',316084169);
+INSERT INTO `admin` VALUES (1,'Aviv Haruzi','admin','admin',332123123);
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -23,7 +23,6 @@ class Account implements iAccount {
         $sql = "INSERT INTO account (AccountNumber, Type, Balance, Date, CustomerId)
         VALUES ('$this->AccountNumber', '$this->Type', '$this->Balance', '$this->Date', '$this->CustomerId')";
         $result = $conn->connectData($sql);
-        LoggerMessages::catchError($result, "addAccount function success", "problem with adding account to database"); // Logger
         return true;
     }
 
@@ -36,7 +35,6 @@ class Account implements iAccount {
         $sql = "INSERT INTO transactions (Action, Money, Balance, Date, AccountId)
         VALUES ('deposit', $amount, $this->Balance, '$date', '$this->Id')";
         $result = $conn->connectData($sql);
-        LoggerMessages::catchError($result, "depositAccount function success", "problem with deposit action to database"); // Logger
         return true;
     }
 
@@ -52,7 +50,6 @@ class Account implements iAccount {
                     $sql = "INSERT INTO transactions (Action, Money, Balance, Date, AccountId)
                     VALUES ('withdrawal', $amount, $score, '$date', '$this->Id')";
                     $result = $conn->connectData($sql);
-                    LoggerMessages::catchError($result, "withdrawalAccount function success", "problem with withdrawal action to database"); // Logger
                     return true;
                 } else {
                     return false;
@@ -70,7 +67,6 @@ class Account implements iAccount {
                 $sql = "INSERT INTO transactions (Action, Money, Balance, Date, AccountId)
                 VALUES ('withdrawal', $amount, $score, '$date', '$this->Id')";
                 $result = $conn->connectData($sql);
-                LoggerMessages::catchError($result, "withdrawalAccount function success", "problem with withdrawal action to database"); // Logger
                 return true;
             } else {
                 return false;
@@ -86,7 +82,6 @@ class Account implements iAccount {
             $conn->connectData($sql);
             $sql = "DELETE FROM account WHERE Id = $this->Id";
             $result = $conn->connectData($sql);
-            LoggerMessages::catchError($result, "deleteAccount function success", "problem with delete account to database"); // Logger
             return true;
         } else {
             return false;

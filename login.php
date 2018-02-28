@@ -12,7 +12,7 @@ $title = "Login";
 <div class="row justify-content-md-center">
     <div class="col-lg-6">
         <div class="text-center m-5">
-            <img src="images/main/atm.svg" height="200px" width="auto">
+            <img src="assets/images/main/atm.svg" height="200px" width="auto">
         </div>
         <?php
         echo AccountHandler::loginCustomer($conn);

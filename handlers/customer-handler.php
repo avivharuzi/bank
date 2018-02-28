@@ -63,7 +63,7 @@ class CustomerHandler {
         $regFullName     = "/^[a-zA-Z ]*$/";
         $regUserName     = "/^[A-Za-z0-9_]{3,20}$/";
         $regIdentityCard = "/^[0-9]{9}$/";
-        $regPassword     = "/^[A-Za-z0-9]{9}$/";
+        $regPassword     = "/^[A-Za-z0-9!@#$%^&*()_]{6,20}$/";
 
         if (!ValidationHandler::validateInputs($_POST["fullName$customerId"], $regFullName)) {
             $errorMsg[] = "This full name is invalid";
@@ -83,8 +83,14 @@ class CustomerHandler {
         if (!ValidationHandler::validateInputs($_POST["identityCard$customerId"], $regIdentityCard)) {
             $errorMsg[] = "This identity card is invalid";
         } else {
-            $identityCard = ValidationHandler::testInput(strtolower($_POST["identityCard$customerId"]));
-            if (self::checkIdentityCard($conn, $identityCard)) {
+            $identityCard = ValidationHandler::testInput($_POST["identityCard$customerId"]);
+            if (!empty($_POST["existIdentityCard$customerId"])) {
+                if ($_POST["existIdentityCard$customerId"] !== $_POST["identityCard$customerId"]) {
+                    if (self::checkIdentityCard($conn, $identityCard)) {
+                        $errorMsg[] = "This identity card is already in used";
+                    }
+                }
+            } else if (self::checkIdentityCard($conn, $identityCard)) {
                 $errorMsg[] = "This identity card is already in used";
             }
         }

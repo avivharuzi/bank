@@ -18,7 +18,7 @@
         <?php if (isset($_SESSION["accountIsLoggedIn"]) === true) { ?>
         <div class="container">
             <div class="text-center mt-5">
-                <img src="images/main/atm.svg" height="200px" width="auto">
+                <img src="assets/images/main/atm.svg" height="200px" width="auto">
             </div>
             <div class="text-center mt-5">
                 <a href="logout.php" class="btn btn-danger w-25">Exit</a>

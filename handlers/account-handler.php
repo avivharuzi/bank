@@ -255,7 +255,7 @@ class AccountHandler {
         }
     }
 
-    public static function depositFromAdmin($conn, $stringDate, $accountId) {
+    public static function depositFromAdmin($conn, $stringDate) {
         if (isset($_POST["deposit"])) {
             $accountId = $_POST["deposit"];
             if (($resultMsg = self::depositAction($conn, $_POST["amountDeposit$accountId"], $stringDate, $accountId)) === true) {
@@ -266,7 +266,7 @@ class AccountHandler {
         }
     }
 
-    public static function withdrawalFromAdmin($conn, $stringDate, $accountId) {
+    public static function withdrawalFromAdmin($conn, $stringDate) {
         if (isset($_POST["withdrawal"])) {
             $accountId = $_POST["withdrawal"];
             if (($resultMsg = self::withdrawalAction($conn, $_POST["amountWithdrawal$accountId"], $stringDate, $accountId)) === true) {

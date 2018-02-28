@@ -12,8 +12,8 @@ $title = "Edit Accounts";
 </div>
 <?php
 
-echo AccountHandler::depositFromAdmin($conn, $stringDate, $accountId);
-echo AccountHandler::withdrawalFromAdmin($conn, $stringDate, $accountId);
+echo AccountHandler::depositFromAdmin($conn, $stringDate);
+echo AccountHandler::withdrawalFromAdmin($conn, $stringDate);
 echo AccountHandler::deleteAccount($conn);
 
 echo AccountHandler::tableData($conn);

@@ -12,7 +12,7 @@ class BankHandler {
         "<div class='col-lg-12'>
             <div class='card w-100 mt-5'>
                 <div class='text-center p-3'>
-                    <img src='../images/main/bank.png' alt='bank' width='256px;' height='256px;'>
+                    <img src='../assets/images/main/bank.png' alt='bank' width='256px;' height='256px;'>
                 </div>
                 <div class='card-body'>
                     <table class='table table-bordered table-hover text-center'>
