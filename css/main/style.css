@@ -1,0 +1,43 @@
+#main-atm {
+    background-color: #1abc9c;
+}
+
+#nav-atm {
+    margin-top: 100px;
+}
+
+.btn-outline-custom {
+    font-size: 36px;
+    font-weight: 300;
+    color: #1ABC9C;
+    background-color: #fff;
+    -webkit-transition: all 0.6s ease;
+    -moz-transition: all 0.6s ease;
+    transition: all 0.6s ease;
+}
+
+.btn-outline-custom:hover {
+    color: #1ABC9C;
+    background-color: #fff;
+    transform: scale(1.1);
+}
+
+.text-custom {
+    color: #1ABC9C;
+}
+
+.icon-edit, .cancel-edit {
+	cursor: pointer;
+}
+
+.tr-edit, .tr-plus, .tr-minus {
+	display: none;
+}
+
+.invalid-feedback {
+	display: none;
+}
+
+#addCustomerErrors, #errFullName, #errUserName, #errIdentityCard {
+    display: none;
+}
