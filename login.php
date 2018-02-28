@@ -4,7 +4,7 @@ $restrict = true;
 
 require_once("auth/config.php");
 
-if (isset($_POST["login"]) && count($_POST["login"] > 0)) {
+if (isset($_POST["login"])) {
     $identityCard = $conn->escape($_POST["identityCard"]);
     $password     = $conn->escape($_POST["password"]);
     $sql = "SELECT * FROM customer WHERE IdentityCard = '$identityCard' LIMIT 1";

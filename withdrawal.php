@@ -2,7 +2,7 @@
 
 require_once("auth/config.php");
 
-if (isset($_POST["withdrawal"]) && count($_POST["withdrawal"]) > 0) {
+if (isset($_POST["withdrawal"])) {
     if (($resultMsg = AccountHandler::withdrawalAction($conn, $_POST["amount"], $stringDate, $accountId)) === true) {
         $successMsg = "You withdrawal $" . $_POST["amount"] . " from your bank account";
     } else {

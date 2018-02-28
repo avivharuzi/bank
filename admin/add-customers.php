@@ -4,7 +4,7 @@ require_once("auth/config.php");
 
 $fullName = $userName = $identityCard = "";
 
-if (isset($_POST["addCustomer"]) && count($_POST["addCustomer"]) > 0) {
+if (isset($_POST["addCustomer"])) {
     $regFullName     = "/^[a-zA-Z ]*$/";
     $regUserName     = "/^[A-Za-z0-9_]{3,20}$/";
     $regIdentityCard = "/^[0-9]{9}$/";

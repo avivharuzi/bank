@@ -2,7 +2,7 @@
 
 require_once("auth/config.php");
 
-if (isset($_POST["deposit"]) && count($_POST["deposit"]) > 0) {
+if (isset($_POST["deposit"])) {
     if (($resultMsg = AccountHandler::depositAction($conn, $_POST["amount"], $stringDate, $accountId)) === true) {
         $successMsg = "You added $" . $_POST["amount"] . " to your bank account";
     } else {

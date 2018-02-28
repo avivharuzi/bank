@@ -2,7 +2,7 @@
 
 require_once("auth/config.php");
 
-if (isset($_POST["login"]) && count($_POST["login"]) > 0) {
+if (isset($_POST["login"])) {
     $userName = $conn->escape(strtolower($_POST["userName"]));
     $password = $conn->escape($_POST["password"]);
     $sql = "SELECT * FROM admin WHERE UserName = '$userName' LIMIT 1";

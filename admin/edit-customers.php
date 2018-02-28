@@ -2,7 +2,7 @@
 
 require_once("auth/config.php");
 
-if (isset($_POST["deleteCustomer"]) && count($_POST["deleteCustomer"]) > 0) {
+if (isset($_POST["deleteCustomer"])) {
     if (CustomerHandler::deleteCustomer($conn, $_POST["deleteCustomer"])) {
         $successMsgDelete = "This customer deleted successfully";
     } else {
@@ -10,7 +10,7 @@ if (isset($_POST["deleteCustomer"]) && count($_POST["deleteCustomer"]) > 0) {
     }
 }
 
-if (isset($_POST["saveCustomer"]) && count($_POST["saveCustomer"]) > 0) {
+if (isset($_POST["saveCustomer"])) {
     if (($errorMsgSave = CustomerHandler::changeCustomer($conn, $_POST["saveCustomer"])) === true) {
         $successMsgSave = "This customer changed successfully";
     }

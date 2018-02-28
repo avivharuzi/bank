@@ -2,7 +2,7 @@
 
 require_once("auth/config.php");
 
-if (isset($_POST["addAccount"]) && count($_POST["addAccount"]) > 0) {
+if (isset($_POST["addAccount"])) {
     $counter = 0;
 
     if (!empty($_POST["customerId"])) {

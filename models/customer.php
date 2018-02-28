@@ -55,7 +55,6 @@ class Customer implements iCustomer {
     public function setSession($accountId) {
         $_SESSION["accountIsLoggedIn"] = true;
         $_SESSION["accountId"]         = $accountId;
-        Logger::writeLogger("customer", "Customer success to login account id: $accountId"); // Logger
         header("Location: index.php");
         exit();
     }

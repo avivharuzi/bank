@@ -4,7 +4,7 @@ require_once("auth/config.php");
 
 $title = "Edit Accounts";
 
-if (isset($_POST["deleteAccount"]) && count($_POST["deleteAccount"]) > 0) {
+if (isset($_POST["deleteAccount"])) {
     $accountId = $_POST["deleteAccount"];
 
     if ((AccountHandler::deleteAccountAction($conn, $accountId)) === true) {
@@ -14,7 +14,7 @@ if (isset($_POST["deleteAccount"]) && count($_POST["deleteAccount"]) > 0) {
     }
 }
 
-if (isset($_POST["withdrawal"]) && count($_POST["withdrawal"]) > 0) {
+if (isset($_POST["withdrawal"])) {
     $accountId = $_POST["withdrawal"];
     if (($resultMsg = AccountHandler::withdrawalAction($conn, $_POST["amountWithdrawal$accountId"], $stringDate, $accountId)) === true) {
         $successMsg = "You withdrawal $" . $_POST["amountWithdrawal$accountId"] . " from your bank account";
@@ -23,7 +23,7 @@ if (isset($_POST["withdrawal"]) && count($_POST["withdrawal"]) > 0) {
     }
 }
 
-if (isset($_POST["deposit"]) && count($_POST["deposit"]) > 0) {
+if (isset($_POST["deposit"])) {
     $accountId = $_POST["deposit"];
     if (($resultMsg = AccountHandler::depositAction($conn, $_POST["amountDeposit$accountId"], $stringDate, $accountId)) === true) {
         $successMsg = "You added $" . $_POST["amountDeposit$accountId"] . " to your bank account";
